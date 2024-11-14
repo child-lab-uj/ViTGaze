@@ -29,17 +29,6 @@ module load Miniconda3
 
 eval "$(conda shell.bash hook)"
 
-# module load python
-
-# generate the head masks
-conda create --prefix $SCRATCH/.conda/retinaface python==3.9.18 || true
-conda activate $SCRATCH/.conda/retinaface
-
-pip config --user set global.cache-dir $SCRATCH/.cache
-
-pip install -U retinaface_pytorch
-python scripts/gen_gazefollow_head_masks.py --dataset_dir $PLG_GROUPS_STORAGE/plggrai/jkosmydel/datasets/videoattentiontarget --subset train
-
 # install the requirements
 conda create --prefix $SCRATCH/.conda/ViTGaze python==3.9.18 || true
 conda activate $SCRATCH/.conda/ViTGaze

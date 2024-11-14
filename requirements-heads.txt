@@ -1,0 +1,7 @@
+argparse
+opencv-python
+numpy 
+pandas
+tqdm
+pillow
+retinaface-pytorch

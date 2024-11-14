@@ -35,6 +35,7 @@ The directory structure should be:
 """
     )
 
+print("Loading config, data root: ", DATA_ROOT)
 # Basic Config for Video Attention Target dataset and preprocessing
 data_info = OmegaConf.create()
 data_info.video_attention_target = OmegaConf.create()

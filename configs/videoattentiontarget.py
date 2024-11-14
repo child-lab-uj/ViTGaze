@@ -6,6 +6,7 @@ from .common.train import train
 from os.path import join, basename
 from torch.cuda import device_count
 
+print("Loading config, gpus: ", device_count())
 
 num_gpu = device_count()
 ins_per_iter = 1

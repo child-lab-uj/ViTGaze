@@ -7,8 +7,8 @@ from os.path import join, basename
 from torch.cuda import device_count
 
 
-num_gpu = device_count()
-ins_per_iter = 4
+num_gpu = 1
+ins_per_iter = 1
 len_dataset = 4400
 num_epoch = 1
 # dataloader
@@ -26,10 +26,10 @@ dataloader.train.max_scene_patches_ratio = 0.5
 dataloader.train.seq_len = 8
 dataloader.val.quant_labelmap = False
 dataloader.val.seq_len = 8
-dataloader.val.batch_size = 4
+dataloader.val.batch_size = 1
 dataloader.val.distributed = False
 # train
-train.init_checkpoint = "output/gazefollow_518/model_final.pth"
+train.init_checkpoint = "pretrained/dinov2_small.pth"
 train.output_dir = join("./output", basename(__file__).split(".")[0])
 train.max_iter = len_dataset * num_epoch // ins_per_iter
 train.log_period = len_dataset // (ins_per_iter * 100)

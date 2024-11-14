@@ -52,19 +52,29 @@ def inverse_transform(tensor: torch.Tensor) -> np.ndarray:
 
 def draw(data, heatmap, out_path, on_img=True):
     img = inverse_transform(data["images"])
-    head_channel = cv2.applyColorMap(
-        (data["head_channels"].squeeze().detach().cpu().numpy() * 255).astype(np.uint8),
-        cv2.COLORMAP_BONE,
-    )
+    # head_channel = cv2.applyColorMap(
+    #     (data["head_channels"].squeeze().detach().cpu().numpy() * 255).astype(np.uint8),
+    #     cv2.COLORMAP_BONE,
+    # )
     hm = cv2.applyColorMap((heatmap * 255).astype(np.uint8), cv2.COLORMAP_JET)
     heatmap = hm
     heatmap = cv2.resize(heatmap, (img.shape[1], img.shape[0]))
     if on_img:
-        img = cv2.addWeighted(img, 1, heatmap, 0.5, 1)
+        img = cv2.addWeighted(img, 0.6, heatmap, 0.4, 0)
     else:
         img = heatmap
     # img = cv2.addWeighted(img, 1, head_channel, 0.1, 1)
+    # display the mask of head_channels (make it darker)
+    head_channel = cv2.applyColorMap(
+        (data["head_channels"].squeeze().detach().cpu().numpy() * 255).astype(np.uint8),
+        cv2.COLORMAP_BONE,
+    )
+    head_channel[data["head_channels"].squeeze().detach().cpu().numpy() < 0.1] = 0
+    img = cv2.addWeighted(img, 1, head_channel, 0.1, 1)
     cv2.imwrite(out_path, img)
+    cv2.imwrite(out_path.replace('.png', '_head.png'), head_channel)
+    cv2.imwrite(out_path.replace('.png', '_heatmap.png'), heatmap)
+    
 
 
 def draw_origin_img(data, out_path):

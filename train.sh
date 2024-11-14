@@ -1,10 +1,10 @@
 #!/bin/bash
 
-export CUDA_VISIBLE_DEVICES="0,1"
+export CUDA_VISIBLE_DEVICES="0"
 
 config_files=(
-    "configs/gazefollow.py"
-    "configs/gazefollow_518.py"
+    # "configs/gazefollow.py"
+    # "configs/gazefollow_518.py"
     "configs/videoattentiontarget.py"
 )
 

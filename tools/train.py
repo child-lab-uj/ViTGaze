@@ -96,7 +96,7 @@ if __name__ == "__main__":
     args = default_argument_parser().parse_args()
     launch(
         main,
-        args.num_gpus,
+        1,
         num_machines=args.num_machines,
         machine_rank=args.machine_rank,
         dist_url=args.dist_url,

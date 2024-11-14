@@ -76,7 +76,7 @@ def do_test(cfg, model, use_dark_inference=False):
                         # h, w, _ = image.shape
                         # cv2.circle(image, (int(pred_x * w), int(pred_y * h)), 5, (0, 255, 0), -1)
                         # cv2.imwrite('output.png', image)
-                        draw(data, heatmap=scaled_heatmap, out_path=f'output{i}.png')
+                        draw(data, heatmap=scaled_heatmap, out_path=f'output/output{i}.png')
                         i += 1
                         if i == 10:
                             exit()

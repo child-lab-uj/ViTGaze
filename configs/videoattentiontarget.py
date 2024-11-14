@@ -7,7 +7,7 @@ from os.path import join, basename
 from torch.cuda import device_count
 
 
-num_gpu = 1
+num_gpu = device_count()
 ins_per_iter = 1
 len_dataset = 4400
 num_epoch = 1

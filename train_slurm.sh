@@ -43,8 +43,11 @@ python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
 # create the dinov2 pretrained 
 mkdir pretrained
 wget -P pretrained https://dl.fbaipublicfiles.com/dinov2/dinov2_vits14/dinov2_vits14_pretrain.pth
-
 python scripts/convert_pth.py --src pretrained/dinov2_vits14_pretrain.pth --dst pretrained/dinov2_small.pth
+
+# generate the head masks
+pip install retinaface
+python scripts/gen_gazefollow_head_masks.py --dataset_dir $PLG_GROUPS_STORAGE/plggrai/jkosmydel/datasets/videoattentiontarget --subset train
 
 export DATA_ROOT=$PLG_GROUPS_STORAGE/plggrai/jkosmydel/datasets/
 

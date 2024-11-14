@@ -37,5 +37,6 @@ conda activate $SCRATCH/.conda/retinaface
 
 pip config --user set global.cache-dir $SCRATCH/.cache
 
-pip install -U retinaface_pytorch
-python scripts/gen_gazefollow_head_masks.py --dataset_dir $PLG_GROUPS_STORAGE/plggrai/jkosmydel/datasets/videoattentiontarget --subset train
+pip install -r requirements-heads.txt
+
+python scripts/gen_gazefollow_head_masks.py --dataset_dir $PLG_GROUPS_STORAGE/plggrai/jkosmydel/datasets/gazefollow --subset train

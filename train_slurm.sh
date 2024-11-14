@@ -22,6 +22,13 @@
 ## Switching to the directory where the sbatch command was initiated
 cd $SLURM_SUBMIT_DIR
 
+conda create -n ViTGaze python==3.9.18
+conda activate ViTGaze
+
+pip install -r requirements.txt
+
+python -m pip install 'git+https://github.com/facebookresearch/detectron2.git'
+
 export CUDA_VISIBLE_DEVICES="0"
 
 config_files=(

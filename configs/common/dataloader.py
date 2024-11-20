@@ -11,7 +11,7 @@ from data import *
 import os
 
 
-DATA_ROOT = os.getenv["DATA_ROOT"] or "/home/arek/child-lab/jakub/datasets"
+DATA_ROOT = os.getenv("DATA_ROOT") or "/home/arek/child-lab/jakub/datasets"
 if DATA_ROOT == "${Root to Datasets}":
     raise Exception(
         f"""{osp.abspath(__file__)}: Rewrite `DATA_ROOT` with the root to the datasets.

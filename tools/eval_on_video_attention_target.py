@@ -6,11 +6,7 @@ import torch
 import numpy as np
 from PIL import Image
 from detectron2.config import instantiate, LazyConfig
-from utils import draw
-
-from PIL import Image
-import torch
-from torchvision.transforms.functional import to_pil_image
+from tqdm import tqdm
 
 sys.path.append(osp.dirname(osp.dirname(__file__)))
 from utils import *
@@ -22,15 +18,13 @@ warnings.simplefilter(action="ignore", category=FutureWarning)
 def do_test(cfg, model, use_dark_inference=False):
     val_loader = instantiate(cfg.dataloader.val)
 
-    i = 0
-
     model.train(False)
     AUC = []
     dist = []
     inout_gt = []
     inout_pred = []
     with torch.no_grad():
-        for data in val_loader:
+        for data in tqdm(val_loader):
             val_gaze_heatmap_pred, val_gaze_inout_pred = model(data)
             val_gaze_heatmap_pred = (
                 val_gaze_heatmap_pred.squeeze(1).cpu().detach().numpy()
@@ -64,27 +58,8 @@ def do_test(cfg, model, use_dark_inference=False):
                     auc_score = auc(scaled_heatmap, multi_hot)
                     auc_batch.append(auc_score)
                     dist_batch.append(L2_dist(valid_gaze.numpy(), norm_p))
-                    
-                    save_image = True
-
-                    # Save the image with prediction if flag is True
-                    if save_image:
-                        # print(data.keys())
-                        # pil_image = to_pil_image(data["images"][b_i])
-                        # print('data["images"][b_i]', data["images"][b_i].shape)
-                        # image = np.array(pil_image)
-                        # h, w, _ = image.shape
-                        # cv2.circle(image, (int(pred_x * w), int(pred_y * h)), 5, (0, 255, 0), -1)
-                        # cv2.imwrite('output.png', image)
-                        draw(data, heatmap=scaled_heatmap, out_path=f'output{i}.png')
-                        i += 1
-                        if i == 10:
-                            exit()
-                        break
-                            
                 AUC.extend(auc_batch)
                 dist.extend(dist_batch)
-                break
             inout_gt.extend(data["gaze_inouts"].cpu().numpy())
             inout_pred.extend(val_gaze_inout_pred)
 
@@ -96,16 +71,6 @@ def do_test(cfg, model, use_dark_inference=False):
             ap(inout_gt, inout_pred),
         )
     )
-
-    with open('output.txt', 'w') as f:
-        f.write("|AUC   |dist    |AP     |\n")
-        f.write(
-            "|{:.4f}|{:.4f}  |{:.4f}  |\n".format(
-                torch.mean(torch.tensor(AUC)),
-                torch.mean(torch.tensor(dist)),
-                ap(inout_gt, inout_pred),
-            )
-        )
 
 
 def main(args):
